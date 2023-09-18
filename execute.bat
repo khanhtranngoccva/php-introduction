@@ -1,0 +1,1 @@
+docker run -di --name docker-php -d -v "C:/Programming/PHP/php_intro/src":"/var/www" php:8.1-cli
