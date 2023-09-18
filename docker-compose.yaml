@@ -7,3 +7,14 @@ services:
     ports:
       - "8000:8080"
     tty: true
+    networks:
+      - main_network
+  mysql:
+    image: "mysql"
+    tty: true
+    ports:
+      - "3306"
+    networks:
+      - main_network
+networks:
+  main_network:
