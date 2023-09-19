@@ -20,8 +20,6 @@
 //    echo "<p>$export_cars</p>";
 //    echo "<p>$export_cars_2</p>";
 //    echo "<p>$export_cars_3</p>";
-
-
     $cars = array("BMW", "Volvo", "Toyota", "Mercedes");
     var_dump($cars);
     // Reverse with cloning.

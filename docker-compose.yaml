@@ -1,20 +1,65 @@
 version: "3.8"
 services:
+
+  # PHP Service
   main:
-    build: "."
+    build:
+      context: "."
+      dockerfile: Dockerfile
     volumes:
-      - ./src:/var/www/html
-    ports:
-      - "8000:8080"
+      - ".:/var/www"
+      - "./config/php/local.ini:/usr/local/etc/php/conf.d/local.ini"
+    working_dir: /var/www
     tty: true
+    environment:
+      SERVICE_NAME: main
+      SERVICE_TAGS: dev
     networks:
       - main_network
+    restart: unless-stopped
+  # NGINX service
+  server:
+    image: nginx:alpine
+    restart: unless-stopped
+    tty: true
+    ports:
+      - "8000:80"
+    networks:
+      - main_network
+    volumes:
+      - ".:/var/www"
+      - "./config/nginx/conf.d:/etc/nginx/conf.d"
+  # MySQL Service
   mysql:
     image: "mysql"
+    restart: unless-stopped
     tty: true
     ports:
-      - "3306"
+      - "8888:3306"
     networks:
       - main_network
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: php_intro
+      SERVICE_NAME: mysql
+      SERVICE_TAGS: dev
+    volumes:
+      - "_database:/var/lib/mysql"
+      - "./config/mysql/my.cnf:/etc/mysql/my.cnf"
+  composer:
+    image: "composer:latest"
+    command:
+      - "bash"
+      - "-c"
+      - "composer install --ignore-platform-reqs; tail -F /dev/null"
+    working_dir: "/var/www"
+    tty: true
+    stdin_open: true
+    volumes:
+      - ".:/var/www"
 networks:
   main_network:
+    driver: bridge
+volumes:
+  _database:
+    driver: local
