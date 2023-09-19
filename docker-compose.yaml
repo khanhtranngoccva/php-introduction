@@ -46,17 +46,6 @@ services:
     volumes:
       - "_database:/var/lib/mysql"
       - "./config/mysql/my.cnf:/etc/mysql/my.cnf"
-  composer:
-    image: "composer:latest"
-    command:
-      - "bash"
-      - "-c"
-      - "composer install --ignore-platform-reqs; tail -F /dev/null"
-    working_dir: "/var/www"
-    tty: true
-    stdin_open: true
-    volumes:
-      - ".:/var/www"
 networks:
   main_network:
     driver: bridge
