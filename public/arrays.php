@@ -20,12 +20,14 @@
 //    echo "<p>$export_cars</p>";
 //    echo "<p>$export_cars_2</p>";
 //    echo "<p>$export_cars_3</p>";
-    $cars = array("BMW", "Volvo", "Toyota", "Mercedes");
-    var_dump($cars);
-    // Reverse with cloning.
-    $cars_2 = array_reverse($cars);
-    var_dump($cars_2);
-    var_dump($cars);
+    $x = [1, 2, 3, 8, 11, 4, 7, 6, 9, 5, 0];
+    sort($x);
+    var_dump($x);
 
+    $sumFunc = function ($carry, $item) {
+        return $carry + $item;
+    };
+    $sum = array_reduce($x, $sumFunc, 0);
+    echo $sum;
     ?>
 </pre>
